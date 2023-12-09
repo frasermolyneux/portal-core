@@ -9,6 +9,10 @@ on:
     branches:
       - main
 
+permissions:
+  contents: read # This is required for actions/checkout
+  security-events: write # Required to publish security alerts
+
 jobs:
   sample:
     name: Microsoft Security DevOps Analysis
