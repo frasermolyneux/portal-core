@@ -15,7 +15,7 @@ permissions:
 
 jobs:
   sample:
-    name: Microsoft Security DevOps Analysis
+    name: devops-security-analysis
 
     # MSDO runs on windows-latest.
     # ubuntu-latest also supported
