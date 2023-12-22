@@ -9,7 +9,7 @@ log_analytics_resource_group_name = "rg-platform-logging-prd-uksouth-01"
 log_analytics_workspace_name      = "log-platform-prd-uksouth-01"
 
 app_service_plan = {
-  sku = "P1v3"
+  sku = "P0v3"
 }
 
 tags = {
