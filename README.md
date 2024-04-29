@@ -5,7 +5,6 @@
 | DevOps Secure Scanning  | [![DevOps Secure Scanning](https://github.com/frasermolyneux/portal-core/actions/workflows/devops-secure-scanning.yml/badge.svg)](https://github.com/frasermolyneux/portal-core/actions/workflows/devops-secure-scanning.yml)    |
 | Feature Development     | [![Feature Development](https://github.com/frasermolyneux/portal-core/actions/workflows/feature-development.yml/badge.svg)](https://github.com/frasermolyneux/portal-core/actions/workflows/feature-development.yml)             |
 | Pull Request Validation | [![Pull Request Validation](https://github.com/frasermolyneux/portal-core/actions/workflows/pull-request-validation.yml/badge.svg)](https://github.com/frasermolyneux/portal-core/actions/workflows/pull-request-validation.yml) |
-| Destroy Development     | [![Destroy Development](https://github.com/frasermolyneux/portal-core/actions/workflows/destroy-development.yml/badge.svg)](https://github.com/frasermolyneux/portal-core/actions/workflows/destroy-development.yml)             |
 | Release to Production   | [![Release to Production](https://github.com/frasermolyneux/portal-core/actions/workflows/release-to-production.yml/badge.svg)](https://github.com/frasermolyneux/portal-core/actions/workflows/release-to-production.yml)       |
 
 ---
