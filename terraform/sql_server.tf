@@ -27,7 +27,7 @@ resource "azurerm_key_vault_secret" "sql_password" {
 }
 
 resource "azurerm_mssql_server" "sql" {
-  name = "mssqlserver"
+  name = local.sql_name
 
   location            = azurerm_resource_group.rg.location
   resource_group_name = azurerm_resource_group.rg.name
