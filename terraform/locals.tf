@@ -3,4 +3,7 @@ locals {
   app_insights_name     = "ai-portal-core-${var.environment}-${var.location}-${var.instance}"
   app_service_plan_name = "asp-portal-core-${var.environment}-${var.location}-${var.instance}"
   api_management_name   = "apim-portal-core-${var.environment}-${var.location}-${var.instance}-${random_id.environment_id.hex}"
+  sql_admin_group_name  = "sql-admins-${var.environment}-${var.location}-${var.instance}"
+  sql_key_vault_name    = "kv-sql${random_id.environment_id.hex}-${var.location}"
+  sql_name              = "sql-${var.environment}-${var.location}-${var.instance}"
 }
