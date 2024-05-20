@@ -4,6 +4,6 @@ locals {
   app_service_plan_name = "asp-portal-core-${var.environment}-${var.location}-${var.instance}"
   api_management_name   = "apim-portal-core-${var.environment}-${var.location}-${var.instance}-${random_id.environment_id.hex}"
   sql_admin_group_name  = "sql-portal-core-admins-${var.environment}-${var.location}-${var.instance}"
-  sql_name              = "sql-portal-core-${var.environment}-${var.location}-${var.instance}"
+  sql_name              = "sql-portal-core-${var.environment}-${var.location}-${var.instance}-${random_id.environment_id.hex}"
   key_vault_name        = "kv-${random_id.environment_id.hex}-${var.location}"
 }
