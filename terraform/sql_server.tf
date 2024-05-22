@@ -42,6 +42,10 @@ resource "azurerm_mssql_server" "sql" {
     object_id      = azuread_group.sql_admin_group.object_id
   }
 
+  identity {
+    type = "SystemAssigned"
+  }
+
   tags = var.tags
 }
 
