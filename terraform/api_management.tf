@@ -7,4 +7,8 @@ resource "azurerm_api_management" "apim" {
   publisher_email = "admin@xtremeidiots.com"
 
   sku_name = "Consumption_0"
+
+  identity {
+    type = "SystemAssigned"
+  }
 }
