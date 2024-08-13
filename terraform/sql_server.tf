@@ -9,19 +9,19 @@ resource "random_id" "username_suffix" {
 }
 
 resource "azurerm_key_vault_secret" "sql_username" {
-  name         = "${local.sql_name}-username"
+  name         = "${local.sql_server_name}-username"
   value        = "addy${random_id.username_suffix.hex}"
   key_vault_id = azurerm_key_vault.sql_kv.id
 }
 
 resource "azurerm_key_vault_secret" "sql_password" {
-  name         = "${local.sql_name}-password"
+  name         = "${local.sql_server_name}-password"
   value        = random_password.sql_admin_password.result
   key_vault_id = azurerm_key_vault.sql_kv.id
 }
 
 resource "azurerm_mssql_server" "sql" {
-  name = local.sql_name
+  name = local.sql_server_name
 
   location            = azurerm_resource_group.rg.location
   resource_group_name = azurerm_resource_group.rg.name
