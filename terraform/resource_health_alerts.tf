@@ -11,7 +11,7 @@ resource "azurerm_monitor_activity_log_alert" "rg_resource_health" {
     category = "ResourceHealth"
 
     resource_health {
-      previous = "Available"
+      previous = ["Available"]
     }
   }
 
