@@ -1,5 +1,5 @@
 resource "azurerm_monitor_activity_log_alert" "rg_resource_health" {
-  name = "portal-core - ${var.environment} - ${azurerm_resource_group.rg.name} - resource health"
+  name = "portal-core-${var.environment} - ${azurerm_resource_group.rg.name} - resource health"
 
   resource_group_name = azurerm_resource_group.rg.name
   location            = "global"
