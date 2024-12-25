@@ -19,7 +19,7 @@ app_service_plan = {
 
 tags = {
   Environment = "dev",
-  Workload    = "portal",
+  Workload    = "portal-core",
   DeployedBy  = "GitHub-Terraform",
   Git         = "https://github.com/frasermolyneux/portal-core"
 }
