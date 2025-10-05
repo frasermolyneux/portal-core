@@ -32,8 +32,8 @@ resource "azurerm_mssql_server" "sql" {
   minimum_tls_version          = "1.2"
 
   azuread_administrator {
-    login_username = azuread_group.sql_admin_group.display_name
-    object_id      = azuread_group.sql_admin_group.object_id
+    login_username = local.sql_admin_group.display_name
+    object_id      = local.sql_admin_group.object_id
   }
 
   identity {
