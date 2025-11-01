@@ -12,12 +12,16 @@ resource "azurerm_key_vault_secret" "sql_username" {
   name         = "${local.sql_server_name}-username"
   value        = "addy${random_id.username_suffix.hex}"
   key_vault_id = azurerm_key_vault.sql_kv.id
+
+  depends_on = [azurerm_role_assignment.deploy_spn_key_vault_secrets_officer]
 }
 
 resource "azurerm_key_vault_secret" "sql_password" {
   name         = "${local.sql_server_name}-password"
   value        = random_password.sql_admin_password.result
   key_vault_id = azurerm_key_vault.sql_kv.id
+
+  depends_on = [azurerm_role_assignment.deploy_spn_key_vault_secrets_officer]
 }
 
 resource "azurerm_mssql_server" "sql" {
