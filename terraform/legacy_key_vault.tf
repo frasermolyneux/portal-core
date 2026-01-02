@@ -23,13 +23,3 @@ resource "azurerm_role_assignment" "legacy_deploy_spn_key_vault_secrets_officer"
   role_definition_name = "Key Vault Secrets Officer"
   principal_id         = data.azuread_client_config.current.object_id
 }
-
-moved {
-  from = azurerm_key_vault.sql_kv
-  to   = azurerm_key_vault.legacy_sql_kv
-}
-
-moved {
-  from = azurerm_role_assignment.deploy_spn_key_vault_secrets_officer
-  to   = azurerm_role_assignment.legacy_deploy_spn_key_vault_secrets_officer
-}

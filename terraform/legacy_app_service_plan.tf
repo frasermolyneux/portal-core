@@ -6,8 +6,3 @@ resource "azurerm_service_plan" "legacy_sp" {
   os_type  = "Linux"
   sku_name = var.app_service_plan.sku
 }
-
-moved {
-  from = azurerm_service_plan.sp
-  to   = azurerm_service_plan.legacy_sp
-}

@@ -19,13 +19,3 @@ resource "azurerm_api_management_logger" "legacy_apim_log" {
     instrumentation_key = "{{${azurerm_api_management_named_value.legacy_apim_nv_ai_key.display_name}}}"
   }
 }
-
-moved {
-  from = azurerm_api_management_named_value.apim_nv_ai_key
-  to   = azurerm_api_management_named_value.legacy_apim_nv_ai_key
-}
-
-moved {
-  from = azurerm_api_management_logger.apim_log
-  to   = azurerm_api_management_logger.legacy_apim_log
-}

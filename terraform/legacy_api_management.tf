@@ -12,8 +12,3 @@ resource "azurerm_api_management" "legacy_apim" {
     type = "SystemAssigned"
   }
 }
-
-moved {
-  from = azurerm_api_management.apim
-  to   = azurerm_api_management.legacy_apim
-}

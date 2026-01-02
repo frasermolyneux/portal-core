@@ -42,6 +42,18 @@ variable "platform_monitoring_state" {
   })
 }
 
+variable "portal_environments_state" {
+  description = "Backend config for portal-environments remote state"
+  type = object({
+    resource_group_name  = string
+    storage_account_name = string
+    container_name       = string
+    key                  = string
+    subscription_id      = string
+    tenant_id            = string
+  })
+}
+
 variable "log_analytics_subscription_id" {}
 variable "log_analytics_resource_group_name" {}
 variable "log_analytics_workspace_name" {}
@@ -55,19 +67,3 @@ variable "app_service_plan" {
 variable "tags" {
   default = {}
 }
-
-variable "portal_environments_state_resource_group_name" {}
-
-variable "portal_environments_state_storage_account_name" {}
-
-variable "portal_environments_state_container_name" {
-  default = "tfstate"
-}
-
-variable "portal_environments_state_key" {
-  default = "terraform.tfstate"
-}
-
-variable "portal_environments_state_subscription_id" {}
-
-variable "portal_environments_state_tenant_id" {}

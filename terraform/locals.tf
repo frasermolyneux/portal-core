@@ -18,5 +18,12 @@ locals {
 
   platform_monitoring_workspace_id = data.terraform_remote_state.platform_monitoring.outputs.log_analytics.id
 
-  app_insights_name = "ai-portal-core-${var.environment}-${var.location}"
+  sql_admin_group = data.terraform_remote_state.portal_environments.outputs.sql_admin_group
+
+  app_insights_name     = "ai-portal-core-${var.environment}-${var.location}"
+  api_management_name   = "apim-portal-core-${var.environment}-${var.location}-${random_id.environment_id.hex}"
+  app_service_plan_name = "asp-portal-core-${var.environment}-${var.location}"
+  key_vault_name        = "kv-${random_id.environment_id.hex}-${var.location}"
+  sql_server_name       = "sql-portal-core-${var.environment}-${var.location}-${random_id.environment_id.hex}"
+  dashboard_name        = "portal-core-${var.environment}"
 }
