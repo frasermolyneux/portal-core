@@ -4,18 +4,8 @@ resource "random_password" "legacy_sql_admin_password" {
   override_special = "!#$%&*()-_=+[]{}<>:?"
 }
 
-moved {
-  from = random_password.sql_admin_password
-  to   = random_password.legacy_sql_admin_password
-}
-
 resource "random_id" "legacy_username_suffix" {
   byte_length = 4
-}
-
-moved {
-  from = random_id.username_suffix
-  to   = random_id.legacy_username_suffix
 }
 
 resource "azurerm_key_vault_secret" "legacy_sql_username" {
@@ -26,22 +16,12 @@ resource "azurerm_key_vault_secret" "legacy_sql_username" {
   depends_on = [azurerm_role_assignment.legacy_deploy_spn_key_vault_secrets_officer]
 }
 
-moved {
-  from = azurerm_key_vault_secret.sql_username
-  to   = azurerm_key_vault_secret.legacy_sql_username
-}
-
 resource "azurerm_key_vault_secret" "legacy_sql_password" {
   name         = "${local.legacy_sql_server_name}-password"
   value        = random_password.legacy_sql_admin_password.result
   key_vault_id = azurerm_key_vault.legacy_sql_kv.id
 
   depends_on = [azurerm_role_assignment.legacy_deploy_spn_key_vault_secrets_officer]
-}
-
-moved {
-  from = azurerm_key_vault_secret.sql_password
-  to   = azurerm_key_vault_secret.legacy_sql_password
 }
 
 resource "azurerm_mssql_server" "legacy_sql" {
@@ -67,20 +47,10 @@ resource "azurerm_mssql_server" "legacy_sql" {
   tags = var.tags
 }
 
-moved {
-  from = azurerm_mssql_server.sql
-  to   = azurerm_mssql_server.legacy_sql
-}
-
 resource "azurerm_mssql_firewall_rule" "legacy_example" {
   name      = "allowAzureServicesFirewallRule"
   server_id = azurerm_mssql_server.legacy_sql.id
 
   start_ip_address = "0.0.0.0"
   end_ip_address   = "0.0.0.0"
-}
-
-moved {
-  from = azurerm_mssql_firewall_rule.example
-  to   = azurerm_mssql_firewall_rule.legacy_example
 }
