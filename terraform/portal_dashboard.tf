@@ -8,7 +8,6 @@ locals {
     "app_service_plan_name" = azurerm_service_plan.sp.name
     "api_management_name"   = azurerm_api_management.apim.name
     "sql_server_name"       = azurerm_mssql_server.sql.name
-    "key_vault_name"        = azurerm_key_vault.sql_kv.name
   }
 
   out = join("\n", [
