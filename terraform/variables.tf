@@ -30,6 +30,18 @@ variable "platform_workloads_state" {
   })
 }
 
+variable "platform_monitoring_state" {
+  description = "Backend config for platform-monitoring remote state"
+  type = object({
+    resource_group_name  = string
+    storage_account_name = string
+    container_name       = string
+    key                  = string
+    subscription_id      = string
+    tenant_id            = string
+  })
+}
+
 variable "log_analytics_subscription_id" {}
 variable "log_analytics_resource_group_name" {}
 variable "log_analytics_workspace_name" {}
