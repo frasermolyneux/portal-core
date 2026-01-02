@@ -2,6 +2,12 @@ variable "environment" {
   default = "dev"
 }
 
+variable "workload_name" {
+  description = "Name of the workload as defined in platform-workloads state"
+  type        = string
+  default     = "portal-core"
+}
+
 variable "location" {
   default = "uksouth"
 }
