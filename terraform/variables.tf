@@ -2,6 +2,12 @@ variable "environment" {
   default = "dev"
 }
 
+variable "workload_name" {
+  description = "Name of the workload as defined in platform-workloads state"
+  type        = string
+  default     = "portal-core"
+}
+
 variable "location" {
   default = "uksouth"
 }
@@ -11,6 +17,30 @@ variable "instance" {
 }
 
 variable "subscription_id" {}
+
+variable "platform_workloads_state" {
+  description = "Backend config for platform-workloads remote state (used to read workload resource groups/backends)"
+  type = object({
+    resource_group_name  = string
+    storage_account_name = string
+    container_name       = string
+    key                  = string
+    subscription_id      = string
+    tenant_id            = string
+  })
+}
+
+variable "platform_monitoring_state" {
+  description = "Backend config for platform-monitoring remote state"
+  type = object({
+    resource_group_name  = string
+    storage_account_name = string
+    container_name       = string
+    key                  = string
+    subscription_id      = string
+    tenant_id            = string
+  })
+}
 
 variable "log_analytics_subscription_id" {}
 variable "log_analytics_resource_group_name" {}

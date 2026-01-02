@@ -14,5 +14,5 @@ data "terraform_remote_state" "portal_environments" {
 }
 
 locals {
-  sql_admin_group = data.terraform_remote_state.portal_environments.outputs.sql_admin_group
+  legacy_sql_admin_group = data.terraform_remote_state.portal_environments.outputs.sql_admin_group
 }

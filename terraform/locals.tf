@@ -1,9 +1,22 @@
 locals {
-  resource_group_name   = "rg-portal-core-${var.environment}-${var.location}-${var.instance}"
-  app_insights_name     = "ai-portal-core-${var.environment}-${var.location}-${var.instance}"
-  app_service_plan_name = "asp-portal-core-${var.environment}-${var.location}-${var.instance}"
-  api_management_name   = "apim-portal-core-${var.environment}-${var.location}-${var.instance}-${random_id.environment_id.hex}"
-  sql_server_name       = "sql-portal-core-${var.environment}-${var.location}-${var.instance}-${random_id.environment_id.hex}"
-  key_vault_name        = "kv-${random_id.environment_id.hex}-${var.location}"
-  dashboard_name        = "portal-core-${var.environment}-${var.instance}"
+  workload_resource_groups = {
+    for location in [var.location] :
+    location => data.terraform_remote_state.platform_workloads.outputs.workload_resource_groups[var.workload_name][var.environment].resource_groups[lower(location)]
+  }
+
+  workload_backend = try(
+    data.terraform_remote_state.platform_workloads.outputs.workload_terraform_backends[var.workload_name][var.environment],
+    null
+  )
+
+  workload_administrative_unit = try(
+    data.terraform_remote_state.platform_workloads.outputs.workload_administrative_units[var.workload_name][var.environment],
+    null
+  )
+
+  workload_resource_group = local.workload_resource_groups[var.location]
+
+  platform_monitoring_workspace_id = data.terraform_remote_state.platform_monitoring.outputs.log_analytics.id
+
+  app_insights_name = "ai-portal-core-${var.environment}-${var.location}"
 }
