@@ -8,3 +8,8 @@ resource "azurerm_application_insights" "legacy_ai" {
 
   disable_ip_masking = true
 }
+
+moved {
+  from = azurerm_application_insights.ai
+  to   = azurerm_application_insights.legacy_ai
+}
