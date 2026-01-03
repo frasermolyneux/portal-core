@@ -14,7 +14,8 @@ resource "azurerm_mssql_server" "sql" {
   }
 
   identity {
-    type = "SystemAssigned"
+    type         = "UserAssigned"
+    identity_ids = [local.portal_core_sql_server_identity.id]
   }
 
   tags = var.tags
