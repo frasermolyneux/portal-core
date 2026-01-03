@@ -30,19 +30,21 @@ resource "azurerm_mssql_server" "legacy_sql" {
   location            = azurerm_resource_group.legacy_rg.location
   resource_group_name = azurerm_resource_group.legacy_rg.name
 
-  version                      = "12.0"
-  administrator_login          = azurerm_key_vault_secret.legacy_sql_username.value
-  administrator_login_password = azurerm_key_vault_secret.legacy_sql_password.value
-  minimum_tls_version          = "1.2"
+  version             = "12.0"
+  minimum_tls_version = "1.2"
 
   azuread_administrator {
-    login_username = local.sql_admin_group.display_name
-    object_id      = local.sql_admin_group.object_id
+    azuread_authentication_only = true
+    login_username              = local.sql_admin_group.display_name
+    object_id                   = local.sql_admin_group.object_id
   }
 
   identity {
-    type = "SystemAssigned"
+    type         = "UserAssigned"
+    identity_ids = [local.portal_core_sql_server_identity.id]
   }
+
+  primary_user_assigned_identity_id = local.portal_core_sql_server_identity.id
 
   tags = var.tags
 }
