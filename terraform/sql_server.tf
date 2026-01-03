@@ -18,6 +18,8 @@ resource "azurerm_mssql_server" "sql" {
     identity_ids = [local.portal_core_sql_server_identity.id]
   }
 
+  primary_user_assigned_identity_id = local.portal_core_sql_server_identity.id
+
   tags = var.tags
 }
 
