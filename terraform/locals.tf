@@ -1,4 +1,5 @@
 locals {
+  # Remote State References
   workload_resource_groups = {
     for location in [var.location] :
     location => data.terraform_remote_state.platform_workloads.outputs.workload_resource_groups[var.workload_name][var.environment].resource_groups[lower(location)]
@@ -20,6 +21,7 @@ locals {
 
   sql_admin_group = data.terraform_remote_state.portal_environments.outputs.sql_admin_group
 
+  # Local Resource Naming
   app_insights_name     = "ai-portal-core-${var.environment}-${var.location}"
   api_management_name   = "apim-portal-core-${var.environment}-${var.location}-${random_id.environment_id.hex}"
   app_service_plan_name = "asp-portal-core-${var.environment}-${var.location}"
