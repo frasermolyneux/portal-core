@@ -10,6 +10,7 @@ resource "azurerm_api_management" "apim" {
   sku_name = "Consumption_0"
 
   identity {
-    type = "SystemAssigned"
+    type         = "UserAssigned"
+    identity_ids = [local.core_api_management_identity.id]
   }
 }

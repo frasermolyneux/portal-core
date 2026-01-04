@@ -41,10 +41,10 @@ resource "azurerm_mssql_server" "legacy_sql" {
 
   identity {
     type         = "UserAssigned"
-    identity_ids = [local.portal_core_sql_server_identity.id]
+    identity_ids = [local.core_sql_server_identity.id]
   }
 
-  primary_user_assigned_identity_id = local.portal_core_sql_server_identity.id
+  primary_user_assigned_identity_id = local.core_sql_server_identity.id
 
   tags = var.tags
 }
