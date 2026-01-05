@@ -32,7 +32,8 @@ output "app_insights" {
 
 output "event_ingest_api" {
   value = {
-    version_set_id = azurerm_api_management_api_version_set.legacy_event_ingest_api.id
-    product_id     = azurerm_api_management_product.legacy_event_ingest_api.product_id
+    version_set_id      = azurerm_api_management_api_version_set.legacy_event_ingest_api.id
+    product_id          = azurerm_api_management_product.legacy_event_ingest_api.product_id
+    product_resource_id = "${azurerm_api_management.legacy_apim.id}/products/${azurerm_api_management_product.legacy_event_ingest_api.product_id}"
   }
 }
