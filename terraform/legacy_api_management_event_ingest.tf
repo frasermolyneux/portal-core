@@ -62,15 +62,15 @@ XML
 
 import {
   to = azurerm_api_management_api_version_set.legacy_event_ingest_api
-  id = "${azurerm_api_management.legacy_apim.id}/apiVersionSets/${azurerm_api_management_api_version_set.legacy_event_ingest_api.name}"
+  id = "${azurerm_api_management.legacy_apim.id}/apiVersionSets/event-ingest-api"
 }
 
 import {
   to = azurerm_api_management_product.legacy_event_ingest_api
-  id = "${azurerm_api_management.legacy_apim.id}/products/${azurerm_api_management_product.legacy_event_ingest_api.product_id}"
+  id = "${azurerm_api_management.legacy_apim.id}/products/event-ingest-api"
 }
 
 import {
   to = azurerm_api_management_product_policy.legacy_event_ingest_api
-  id = "${azurerm_api_management.legacy_apim.id}/products/${azurerm_api_management_product_policy.legacy_event_ingest_api.product_id}/policies/policy"
+  id = "${azurerm_api_management.legacy_apim.id}/products/event-ingest-api/policies/policy"
 }
