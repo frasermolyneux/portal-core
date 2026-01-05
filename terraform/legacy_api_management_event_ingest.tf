@@ -69,3 +69,8 @@ import {
   to = azurerm_api_management_product.legacy_event_ingest_api
   id = "${azurerm_api_management.legacy_apim.id}/products/event-ingest-api"
 }
+
+import {
+  to = azurerm_api_management_product_policy.legacy_event_ingest_api
+  id = "${azurerm_api_management.legacy_apim.id}/products/event-ingest-api/policies/policy"
+}
