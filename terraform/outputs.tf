@@ -11,6 +11,7 @@ output "api_management" {
     name                = azurerm_api_management.legacy_apim.name
     id                  = azurerm_api_management.legacy_apim.id
     resource_group_name = azurerm_api_management.legacy_apim.resource_group_name
+    gateway_url         = azurerm_api_management.legacy_apim.gateway_url
   }
 }
 
