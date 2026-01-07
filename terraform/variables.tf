@@ -64,6 +64,18 @@ variable "app_service_plan" {
   })
 }
 
+variable "repository_api" {
+  description = "Configuration for accessing the repository API via API Management"
+  type = object({
+    application_audience = string
+    apim_product_id      = string
+  })
+  default = {
+    application_audience = ""
+    apim_product_id      = ""
+  }
+}
+
 variable "tags" {
   default = {}
 }

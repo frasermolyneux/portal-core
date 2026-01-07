@@ -24,6 +24,8 @@ locals {
   core_sql_server_identity     = data.terraform_remote_state.portal_environments.outputs.managed_identities["core_sql_server_identity"]
   core_api_management_identity = data.terraform_remote_state.portal_environments.outputs.managed_identities["core_api_management_identity"]
 
+  app_configuration_endpoint = data.terraform_remote_state.portal_environments.outputs.app_configuration.endpoint
+
   # Local Resource Naming
   app_insights_name     = "ai-portal-core-${var.environment}-${var.location}"
   api_management_name   = "apim-portal-core-${var.environment}-${var.location}-${random_id.environment_id.hex}"
