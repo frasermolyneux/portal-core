@@ -37,13 +37,3 @@ output "event_ingest_api" {
     product_resource_id = "${azurerm_api_management.legacy_apim.id}/products/${azurerm_api_management_product.legacy_event_ingest_api.product_id}"
   }
 }
-
-output "event_ingest_spec_storage" {
-  value = {
-    storage_account_name = azurerm_storage_account.api_spec.name
-    storage_account_id   = azurerm_storage_account.api_spec.id
-    container_name       = azurerm_storage_container.api_spec["event-ingest"].name
-    resource_group_name  = azurerm_storage_account.api_spec.resource_group_name
-    subscription_id      = var.subscription_id
-  }
-}
