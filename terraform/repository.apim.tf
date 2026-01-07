@@ -3,7 +3,7 @@ resource "azurerm_api_management_api_version_set" "repository_api" {
   resource_group_name = azurerm_api_management.apim.resource_group_name
   api_management_name = azurerm_api_management.apim.name
 
-  display_name      = "Event Ingest API"
+  display_name      = "Repository API"
   versioning_scheme = "Segment"
 }
 
@@ -12,7 +12,7 @@ resource "azurerm_api_management_product" "repository_api" {
   resource_group_name = azurerm_api_management.apim.resource_group_name
   api_management_name = azurerm_api_management.apim.name
 
-  display_name = "Event Ingest API"
+  display_name = "Repository API"
 
   subscription_required = true
   approval_required     = false
