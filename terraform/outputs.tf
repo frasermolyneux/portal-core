@@ -4,8 +4,10 @@ output "staging_dashboard_name" {
 
 output "app_insights" {
   value = {
-    name = azurerm_application_insights.ai.name
-    id   = azurerm_application_insights.ai.id
+    id                  = azurerm_application_insights.ai.id
+    name                = azurerm_application_insights.ai.name
+    resource_group_name = azurerm_application_insights.ai.resource_group_name
+    location            = azurerm_application_insights.ai.location
   }
 }
 
@@ -13,19 +15,23 @@ output "app_service_plans" {
   value = {
     for key, plan in azurerm_service_plan.sp :
     key => {
-      name    = plan.name
-      id      = plan.id
-      sku     = plan.sku_name
-      os_type = plan.os_type
+      id                  = plan.id
+      name                = plan.name
+      resource_group_name = plan.resource_group_name
+      location            = plan.location
+      sku                 = plan.sku_name
+      os_type             = plan.os_type
     }
   }
 }
 
 output "sql_server" {
   value = {
-    name = azurerm_mssql_server.sql.name
-    id   = azurerm_mssql_server.sql.id
-    fqdn = azurerm_mssql_server.sql.fully_qualified_domain_name
+    id                  = azurerm_mssql_server.sql.id
+    name                = azurerm_mssql_server.sql.name
+    resource_group_name = azurerm_mssql_server.sql.resource_group_name
+    location            = azurerm_mssql_server.sql.location
+    fqdn                = azurerm_mssql_server.sql.fully_qualified_domain_name
   }
 }
 
