@@ -29,8 +29,11 @@ portal_environments_state = {
   tenant_id            = "e56a6947-bb9a-4a6e-846a-1f118d1c3a14"
 }
 
-app_service_plan = {
-  sku = "B3"
+app_service_plans = {
+  apps = {
+    sku     = "B1"
+    os_type = "Linux"
+  }
 }
 
 tags = {

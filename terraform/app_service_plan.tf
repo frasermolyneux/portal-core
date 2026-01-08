@@ -1,9 +1,11 @@
 resource "azurerm_service_plan" "sp" {
-  name = local.app_service_plan_name
+  for_each = local.app_service_plans
+
+  name = each.value.name
 
   resource_group_name = data.azurerm_resource_group.rg.name
   location            = data.azurerm_resource_group.rg.location
 
-  os_type  = "Linux"
-  sku_name = var.app_service_plan.sku
+  os_type  = each.value.os_type
+  sku_name = each.value.sku
 }

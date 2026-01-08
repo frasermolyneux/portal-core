@@ -16,8 +16,15 @@ locals {
   core_sql_server_identity = data.terraform_remote_state.portal_environments.outputs.managed_identities["core_sql_server_identity"]
 
   # Local Resource Naming
-  app_insights_name     = "ai-portal-core-${var.environment}-${var.location}"
-  app_service_plan_name = "asp-portal-core-${var.environment}-${var.location}"
-  sql_server_name       = "sql-portal-core-${var.environment}-${var.location}-${random_id.environment_id.hex}"
-  dashboard_name        = "portal-core-${var.environment}"
+  app_insights_name = "ai-portal-core-${var.environment}-${var.location}"
+  app_service_plans = {
+    for key, plan in var.app_service_plans :
+    key => {
+      name    = "asp-${var.workload_name}-${var.environment}-${var.location}-${key}"
+      sku     = plan.sku
+      os_type = plan.os_type
+    }
+  }
+  sql_server_name = "sql-portal-core-${var.environment}-${var.location}-${random_id.environment_id.hex}"
+  dashboard_name  = "portal-core-${var.environment}"
 }

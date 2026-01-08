@@ -50,10 +50,12 @@ variable "portal_environments_state" {
   })
 }
 
-variable "app_service_plan" {
-  type = object({
-    sku = string
-  })
+variable "app_service_plans" {
+  description = "App service plans to provision keyed by usage (e.g. apps, workers)"
+  type = map(object({
+    sku     = string
+    os_type = string
+  }))
 }
 
 variable "tags" {
