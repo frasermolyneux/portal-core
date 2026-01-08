@@ -3,7 +3,7 @@ output "resource_group_name" {
 }
 
 output "staging_dashboard_name" {
-  value = var.environment == "dev" ? azurerm_portal_dashboard.legacy_staging_dashboard[0].name : ""
+  value = var.environment == "dev" ? azurerm_portal_dashboard.staging_dashboard[0].name : ""
 }
 
 output "app_insights" {
