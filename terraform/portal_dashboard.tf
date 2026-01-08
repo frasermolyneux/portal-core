@@ -6,7 +6,7 @@ locals {
     "resource_group_name"   = data.azurerm_resource_group.rg.name
     "app_insights_name"     = azurerm_application_insights.ai.name
     "app_service_plan_name" = azurerm_service_plan.sp.name
-    "api_management_name"   = data.azurerm_api_management.apim.name
+    "api_management_name"   = data.terraform_remote_state.portal_environments.outputs.api_management.name
     "sql_server_name"       = azurerm_mssql_server.sql.name
   }
 
