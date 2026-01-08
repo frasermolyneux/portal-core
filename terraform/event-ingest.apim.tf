@@ -1,7 +1,7 @@
 resource "azurerm_api_management_api_version_set" "event_ingest_api" {
   name                = "event-ingest-api"
-  resource_group_name = azurerm_api_management.apim.resource_group_name
-  api_management_name = azurerm_api_management.apim.name
+  resource_group_name = data.azurerm_api_management.apim.resource_group_name
+  api_management_name = data.azurerm_api_management.apim.name
 
   display_name      = "Event Ingest API"
   versioning_scheme = "Segment"
@@ -9,8 +9,8 @@ resource "azurerm_api_management_api_version_set" "event_ingest_api" {
 
 resource "azurerm_api_management_product" "event_ingest_api" {
   product_id          = "event-ingest-api"
-  resource_group_name = azurerm_api_management.apim.resource_group_name
-  api_management_name = azurerm_api_management.apim.name
+  resource_group_name = data.azurerm_api_management.apim.resource_group_name
+  api_management_name = data.azurerm_api_management.apim.name
 
   display_name = "Event Ingest API"
 
@@ -21,8 +21,8 @@ resource "azurerm_api_management_product" "event_ingest_api" {
 
 resource "azurerm_api_management_product_policy" "event_ingest_api" {
   product_id          = azurerm_api_management_product.event_ingest_api.product_id
-  resource_group_name = azurerm_api_management.apim.resource_group_name
-  api_management_name = azurerm_api_management.apim.name
+  resource_group_name = data.azurerm_api_management.apim.resource_group_name
+  api_management_name = data.azurerm_api_management.apim.name
 
   xml_content = <<XML
 <policies>
