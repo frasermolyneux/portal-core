@@ -16,7 +16,7 @@ resource "azurerm_monitor_activity_log_alert" "rg_resource_health" {
   }
 
   action {
-    action_group_id = var.environment == "prd" ? data.azurerm_monitor_action_group.critical.id : data.azurerm_monitor_action_group.informational.id
+    action_group_id = var.environment == "prd" ? local.monitor_action_groups.critical.id : local.monitor_action_groups.informational.id
   }
 
   tags = var.tags

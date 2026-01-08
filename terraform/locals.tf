@@ -9,6 +9,8 @@ locals {
 
   platform_monitoring_workspace_id = data.terraform_remote_state.platform_monitoring.outputs.log_analytics.id
 
+  monitor_action_groups = data.terraform_remote_state.platform_monitoring.outputs.monitor_action_groups
+
   sql_admin_group = data.terraform_remote_state.portal_environments.outputs.sql_admin_group
 
   core_sql_server_identity = data.terraform_remote_state.portal_environments.outputs.managed_identities["core_sql_server_identity"]
