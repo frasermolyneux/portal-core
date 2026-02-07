@@ -1,12 +1,12 @@
 name: PR Verify
 
-# Terraform-only repo: dev plan always runs (including copilot/*). Prd plan requires 'run-prd-plan'.
+# Terraform-only repo: dev plan runs by default (skips drafts/dependabot). 'deploy-dev' runs plan+apply. Prd plan requires 'run-prd-plan'.
 
 on:
   pull_request:
     branches:
       - main
-    types: [opened, synchronize, reopened, ready_for_review]
+    types: [opened, synchronize, reopened, ready_for_review, labeled, unlabeled]
 
 permissions: {}
 
@@ -15,9 +15,9 @@ jobs:
     permissions:
       contents: read
       id-token: write
-    if: github.event.pull_request.draft == false && github.actor != 'dependabot[bot]'
-    runs-on: ubuntu-latest
+    if: github.event.pull_request.draft == false && github.event.pull_request.user.login != 'dependabot[bot]' && !contains(github.event.pull_request.labels.*.name, 'deploy-dev')
     environment: Development
+    runs-on: ubuntu-latest
     concurrency:
       group: ${{ github.repository }}-dev
     steps:
@@ -30,14 +30,32 @@ jobs:
           AZURE_TENANT_ID: ${{ vars.AZURE_TENANT_ID }}
           AZURE_SUBSCRIPTION_ID: ${{ vars.AZURE_SUBSCRIPTION_ID }}
 
+  terraform-plan-and-apply-dev:
+    permissions:
+      contents: read
+      id-token: write
+    if: github.event.pull_request.draft == false && github.event.pull_request.user.login != 'dependabot[bot]' && contains(github.event.pull_request.labels.*.name, 'deploy-dev')
+    environment: Development
+    runs-on: ubuntu-latest
+    concurrency:
+      group: ${{ github.repository }}-dev
+    steps:
+      - uses: frasermolyneux/actions/terraform-plan-and-apply@main
+        with:
+          terraform-folder: "terraform"
+          terraform-var-file: "tfvars/dev.tfvars"
+          terraform-backend-file: "backends/dev.backend.hcl"
+          AZURE_CLIENT_ID: ${{ vars.AZURE_CLIENT_ID }}
+          AZURE_TENANT_ID: ${{ vars.AZURE_TENANT_ID }}
+          AZURE_SUBSCRIPTION_ID: ${{ vars.AZURE_SUBSCRIPTION_ID }}
+
   terraform-plan-prd:
     permissions:
       contents: read
       id-token: write
-    if: github.event.pull_request.draft == false && github.actor != 'dependabot[bot]' && contains(github.event.pull_request.labels.*.name, 'run-prd-plan')
-    needs: terraform-plan-dev
-    runs-on: ubuntu-latest
+    if: github.event.pull_request.draft == false && github.event.pull_request.user.login != 'dependabot[bot]' && contains(github.event.pull_request.labels.*.name, 'run-prd-plan')
     environment: Production
+    runs-on: ubuntu-latest
     concurrency:
       group: ${{ github.repository }}-prd
     steps:
