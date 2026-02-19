@@ -27,4 +27,9 @@ locals {
   }
   sql_server_name = "sql-portal-core-${var.environment}-${var.location}-${random_id.environment_id.hex}"
   dashboard_name  = "portal-core-${var.environment}"
+
+  app_insights_sampling_percentage = {
+    dev = 25
+    prd = 75
+  }
 }
