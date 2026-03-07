@@ -9,4 +9,6 @@ resource "azurerm_application_insights" "ai" {
   application_type = "web"
 
   disable_ip_masking = true
+
+  tags = var.tags
 }

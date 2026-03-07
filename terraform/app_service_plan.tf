@@ -8,4 +8,6 @@ resource "azurerm_service_plan" "sp" {
 
   os_type  = each.value.os_type
   sku_name = each.value.sku
+
+  tags = var.tags
 }
