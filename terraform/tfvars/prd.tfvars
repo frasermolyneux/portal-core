@@ -31,7 +31,7 @@ portal_environments_state = {
 
 app_service_plans = {
   apps = {
-    sku     = "P1v3"
+    sku     = "P0v3"
     os_type = "Linux"
   }
 }
