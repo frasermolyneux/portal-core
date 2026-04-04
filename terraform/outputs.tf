@@ -35,3 +35,23 @@ output "sql_server" {
   }
 }
 
+output "servicebus_namespace" {
+  value = {
+    id                  = azurerm_servicebus_namespace.sb.id
+    name                = azurerm_servicebus_namespace.sb.name
+    resource_group_name = azurerm_servicebus_namespace.sb.resource_group_name
+    location            = azurerm_servicebus_namespace.sb.location
+    fqdn                = "${azurerm_servicebus_namespace.sb.name}.servicebus.windows.net"
+  }
+}
+
+output "servicebus_queues" {
+  value = {
+    for key, queue in azurerm_servicebus_queue.queue :
+    key => {
+      id   = queue.id
+      name = queue.name
+    }
+  }
+}
+

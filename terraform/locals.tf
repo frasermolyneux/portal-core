@@ -25,8 +25,20 @@ locals {
       os_type = plan.os_type
     }
   }
-  sql_server_name = "sql-portal-core-${var.environment}-${var.location}-${random_id.environment_id.hex}"
-  dashboard_name  = "portal-core-${var.environment}"
+  sql_server_name           = "sql-portal-core-${var.environment}-${var.location}-${random_id.environment_id.hex}"
+  servicebus_namespace_name = "sb-portal-core-${var.environment}-${var.location}-${random_id.environment_id.hex}"
+  dashboard_name            = "portal-core-${var.environment}"
+
+  servicebus_queues = {
+    "player-connected"    = { max_delivery_count = 5, lock_duration = "PT5M", dead_lettering_on_message_expiration = true }
+    "player-disconnected" = { max_delivery_count = 5, lock_duration = "PT5M", dead_lettering_on_message_expiration = true }
+    "chat-message"        = { max_delivery_count = 5, lock_duration = "PT5M", dead_lettering_on_message_expiration = true }
+    "map-vote"            = { max_delivery_count = 5, lock_duration = "PT5M", dead_lettering_on_message_expiration = true }
+    "server-connected"    = { max_delivery_count = 5, lock_duration = "PT5M", dead_lettering_on_message_expiration = true }
+    "map-change"          = { max_delivery_count = 5, lock_duration = "PT5M", dead_lettering_on_message_expiration = true }
+    "server-status"       = { max_delivery_count = 5, lock_duration = "PT5M", dead_lettering_on_message_expiration = true }
+    "ban-file-changed"    = { max_delivery_count = 5, lock_duration = "PT5M", dead_lettering_on_message_expiration = true }
+  }
 
   app_insights_sampling_percentage = {
     dev = 25

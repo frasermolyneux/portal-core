@@ -36,6 +36,10 @@ app_service_plans = {
   }
 }
 
+servicebus_namespace = {
+  sku = "Basic"
+}
+
 tags = {
   Environment = "prd",
   Workload    = "portal-core",

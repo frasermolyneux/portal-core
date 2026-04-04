@@ -58,6 +58,13 @@ variable "app_service_plans" {
   }))
 }
 
+variable "servicebus_namespace" {
+  description = "Service Bus namespace configuration for shared messaging"
+  type = object({
+    sku = string
+  })
+}
+
 variable "tags" {
   default = {}
 }
