@@ -35,7 +35,6 @@ locals {
     "player-connected"    = { max_delivery_count = 5, lock_duration = "PT5M", dead_lettering_on_message_expiration = true }
     "player-disconnected" = { max_delivery_count = 5, lock_duration = "PT5M", dead_lettering_on_message_expiration = true }
     "chat-message"        = { max_delivery_count = 5, lock_duration = "PT5M", dead_lettering_on_message_expiration = true }
-    "map-vote"            = { max_delivery_count = 5, lock_duration = "PT5M", dead_lettering_on_message_expiration = true }
     "server-connected"    = { max_delivery_count = 5, lock_duration = "PT5M", dead_lettering_on_message_expiration = true }
     "map-change"          = { max_delivery_count = 5, lock_duration = "PT5M", dead_lettering_on_message_expiration = true }
     "server-status"       = { max_delivery_count = 5, lock_duration = "PT5M", dead_lettering_on_message_expiration = true }
