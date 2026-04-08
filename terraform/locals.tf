@@ -39,6 +39,7 @@ locals {
     "map-change"          = { max_delivery_count = 5, lock_duration = "PT5M", dead_lettering_on_message_expiration = true }
     "server-status"       = { max_delivery_count = 5, lock_duration = "PT5M", dead_lettering_on_message_expiration = true }
     "ban-file-changed"    = { max_delivery_count = 5, lock_duration = "PT5M", dead_lettering_on_message_expiration = true }
+    "player-ip-resolved"  = { max_delivery_count = 5, lock_duration = "PT5M", dead_lettering_on_message_expiration = true }
   }
 
   app_insights_sampling_percentage = {
