@@ -43,7 +43,7 @@ locals {
   }
 
   app_insights_sampling_percentage = {
-    dev = 25
-    prd = 75
+    dev = 10
+    prd = 25
   }
 }

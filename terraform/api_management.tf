@@ -15,4 +15,27 @@ resource "azurerm_api_management_diagnostic" "app_insights" {
   api_management_logger_id = azurerm_api_management_logger.app_insights.id
 
   sampling_percentage = lookup(local.app_insights_sampling_percentage, var.environment, 25)
+  always_log_errors   = true
+  log_client_ip       = true
+  verbosity           = "information"
+
+  backend_request {
+    body_bytes     = 0
+    headers_to_log = []
+  }
+
+  backend_response {
+    body_bytes     = 0
+    headers_to_log = []
+  }
+
+  frontend_request {
+    body_bytes     = 0
+    headers_to_log = []
+  }
+
+  frontend_response {
+    body_bytes     = 0
+    headers_to_log = []
+  }
 }
