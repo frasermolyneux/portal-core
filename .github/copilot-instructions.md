@@ -1,5 +1,7 @@
 # Copilot Instructions
 
+> Shared conventions: see [`.github-copilot/.github/instructions/terraform.instructions.md`](../../.github-copilot/.github/instructions/terraform.instructions.md) for the standard Terraform layout, providers, remote-state pattern, validation commands, and CI/CD workflows.
+
 ## Project Overview
 
 This is a Terraform-only repository that provisions shared portal infrastructure on Azure. It manages Application Insights, app service plans, a managed-identity-backed SQL server, portal dashboards, and resource health alerting. All infrastructure code lives under the `terraform/` directory.
