@@ -55,3 +55,16 @@ output "servicebus_queues" {
   }
 }
 
+// Central app-data storage account hosting the "ban-files" container.
+// Shape matches the legacy portal-sync output of the same name so consumers
+// can switch upstream without changing reference patterns.
+output "ban_files_storage" {
+  description = "Storage account hosting the regenerated central ban files (consumed by portal-server-agent for outbound FTP push, written by portal-sync)."
+  value = {
+    id             = azurerm_storage_account.app_data_storage.id
+    name           = azurerm_storage_account.app_data_storage.name
+    blob_endpoint  = azurerm_storage_account.app_data_storage.primary_blob_endpoint
+    container_name = azurerm_storage_container.ban_files_container.name
+  }
+}
+

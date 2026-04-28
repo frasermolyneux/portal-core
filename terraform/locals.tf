@@ -29,6 +29,7 @@ locals {
   }
   sql_server_name           = "sql-portal-core-${var.environment}-${var.location}-${random_id.environment_id.hex}"
   servicebus_namespace_name = "sb-portal-core-${var.environment}-${var.location}-${random_id.environment_id.hex}"
+  app_data_storage_name     = "sappdata${random_id.environment_id.hex}"
   dashboard_name            = "portal-core-${var.environment}"
 
   servicebus_queues = {
