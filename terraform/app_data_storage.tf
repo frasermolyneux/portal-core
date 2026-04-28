@@ -6,7 +6,7 @@
 //
 // Owned by portal-core because the asset has multiple producers/consumers and
 // must outlive the nightly destroy-development cycle of any single leaf
-// workload. See docs/ban-files-storage.md for the full migration history.
+// workload.
 
 resource "azurerm_storage_account" "app_data_storage" {
   name = local.app_data_storage_name
