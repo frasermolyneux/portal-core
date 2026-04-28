@@ -11,8 +11,8 @@
 resource "azurerm_storage_account" "app_data_storage" {
   name = local.app_data_storage_name
 
-  resource_group_name = local.workload_resource_group.name
-  location            = local.workload_resource_group.location
+  resource_group_name = data.azurerm_resource_group.rg.name
+  location            = data.azurerm_resource_group.rg.location
 
   account_tier             = "Standard"
   account_replication_type = "LRS"
