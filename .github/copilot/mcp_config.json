@@ -7,7 +7,17 @@
       "env": {
         "GH_COPILOT_CONTENT_ROOT": ".github-copilot"
       },
-      "tools": ["*"]
+      "tools": [
+        "list_instructions",
+        "get_instruction",
+        "search_instructions",
+        "list_prompts",
+        "get_prompt",
+        "search_prompts",
+        "list_agents",
+        "get_agent",
+        "search_agents"
+      ]
     }
   }
 }
