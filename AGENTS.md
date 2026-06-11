@@ -80,6 +80,9 @@ Requires `AZURE_CLIENT_ID`, `AZURE_TENANT_ID`, `AZURE_SUBSCRIPTION_ID` in the ru
 - ❌ Do not modify `.github/workflows/`, `.github/dependabot.yml`, or `version.json` unless that is the explicit task.
 - ❌ Do not introduce App Service / Function / SQL **workload** resources here — those belong in the consuming `portal-*` repo. This repo provides the *shared* plan, server, and observability primitives only.
 
+- ❌ Do not pull context from sibling workspace folders. Only what is inside this repo and `./.github-copilot/` is in scope.
+- ❌ Do not assume tools/SDKs are installed beyond what `.github/workflows/copilot-setup-steps.yml` provisions. If you need more, add the step and explain why.
+
 ---
 
 ## Opening the PR
@@ -107,6 +110,8 @@ Complete the `## Agent attestation` section before requesting review; reviewers 
 - [ ] PR body cites each acceptance criterion from the originating issue
 - [ ] Risk/rollout section filled in
 
+- [ ] `code-review` sub-agent run; High/Medium findings resolved or justified in the PR body
+
 ---
 
 ## Escalation
@@ -119,3 +124,7 @@ Stop and escalate when:
 - The required tenant/standards/platform file is missing or contradicts the issue.
 - A `code-review` finding is **High** and you cannot resolve it without expanding scope.
 - The runner lacks the Terraform version pinned in `.terraform-version` / the workflow.
+
+
+
+
