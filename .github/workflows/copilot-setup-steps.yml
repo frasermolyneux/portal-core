@@ -28,12 +28,3 @@ jobs:
         with:
           checkout-repo: 'true'
           checkout-shared-copilot: 'true'
-          setup-node: 'true'
-          node-version: 20.x
-
-      - name: Build MCP server
-        shell: bash
-        run: |
-          cd .github-copilot/mcp-server
-          npm ci
-          npm run build
