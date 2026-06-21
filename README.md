@@ -7,7 +7,6 @@
 [![Deploy Dev](https://github.com/frasermolyneux/portal-core/actions/workflows/deploy-dev.yml/badge.svg)](https://github.com/frasermolyneux/portal-core/actions/workflows/deploy-dev.yml)
 [![Deploy Prd](https://github.com/frasermolyneux/portal-core/actions/workflows/deploy-prd.yml/badge.svg)](https://github.com/frasermolyneux/portal-core/actions/workflows/deploy-prd.yml)
 [![Destroy Environment](https://github.com/frasermolyneux/portal-core/actions/workflows/destroy-environment.yml/badge.svg)](https://github.com/frasermolyneux/portal-core/actions/workflows/destroy-environment.yml)
-[![Mirror Issue Labels](https://github.com/frasermolyneux/portal-core/actions/workflows/mirror-issue-labels.yml/badge.svg)](https://github.com/frasermolyneux/portal-core/actions/workflows/mirror-issue-labels.yml)
 [![PR Verify](https://github.com/frasermolyneux/portal-core/actions/workflows/pr-verify.yml/badge.svg)](https://github.com/frasermolyneux/portal-core/actions/workflows/pr-verify.yml)
 [![Update Dashboard from Staging](https://github.com/frasermolyneux/portal-core/actions/workflows/update-dashboard-from-staging.yml/badge.svg)](https://github.com/frasermolyneux/portal-core/actions/workflows/update-dashboard-from-staging.yml)
 
@@ -28,3 +27,4 @@ Please read the [contributing](CONTRIBUTING.md) guidance; this is a learning and
 ## Security
 
 Please read the [security](SECURITY.md) guidance; I am always open to security feedback through email or opening an issue.
+
