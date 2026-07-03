@@ -21,3 +21,9 @@ resource "azurerm_role_assignment" "servers_integration_servicebus_sender" {
   role_definition_name = "Azure Service Bus Data Sender"
   principal_id         = local.managed_identities["servers_integration"].principal_id
 }
+
+resource "azurerm_role_assignment" "api_management_servicebus_sender" {
+  scope                = azurerm_servicebus_namespace.sb.id
+  role_definition_name = "Azure Service Bus Data Sender"
+  principal_id         = local.managed_identities["api_management"].principal_id
+}
