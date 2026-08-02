@@ -26,7 +26,6 @@ resource "azurerm_storage_account" "cache_storage" {
   # checkov:skip=CKV_AZURE_33: Queue Storage is not used on this account.
   # checkov:skip=CKV2_AZURE_38: Soft-delete is unnecessary for ephemeral cache/LiveStatus data that is regenerable in seconds.
   # checkov:skip=CKV2_AZURE_33: Private endpoint intentionally not provisioned (cost/architecture decision, consistent with app_data_storage).
-  # checkov:skip=CKV2_AZURE_47: No blob containers exposed; `allow_nested_items_to_be_public` defaults to disabled and the account is identity-only.
   # checkov:skip=CKV2_AZURE_1: Platform-managed keys are acceptable — cache/LiveStatus is not classified data and CMK adds Key Vault + rotation cost with no threat-model benefit here.
   name = local.cache_storage_name
 
@@ -42,8 +41,9 @@ resource "azurerm_storage_account" "cache_storage" {
   min_tls_version            = "TLS1_2"
 
   // Identity-based access only — no shared keys, no SFTP local users.
-  local_user_enabled        = false
-  shared_access_key_enabled = false
+  local_user_enabled              = false
+  shared_access_key_enabled       = false
+  allow_nested_items_to_be_public = false
 
   tags = var.tags
 }
