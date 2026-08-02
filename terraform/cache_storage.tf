@@ -19,6 +19,15 @@
 // and matches the identity-only posture of app_data_storage.
 
 resource "azurerm_storage_account" "cache_storage" {
+  # Ephemeral cache-only account — accepted risk posture matches app_data_storage.
+  # checkov:skip=CKV_AZURE_206: LRS is sufficient for ephemeral cache data (LiveStatus is agent-refreshed ~60s; MxCaching entries are regenerable). GRS/ZRS is an unjustified cost for this workload.
+  # checkov:skip=CKV_AZURE_190: No blob containers are created on this account; only Table Storage is used.
+  # checkov:skip=CKV_AZURE_59: Public network access is required — portal-repository App Service reaches this account over the public endpoint using managed identity; private endpoints are out of scope on cost/architecture grounds.
+  # checkov:skip=CKV_AZURE_33: Queue Storage is not used on this account.
+  # checkov:skip=CKV2_AZURE_38: Soft-delete is unnecessary for ephemeral cache/LiveStatus data that is regenerable in seconds.
+  # checkov:skip=CKV2_AZURE_33: Private endpoint intentionally not provisioned (cost/architecture decision, consistent with app_data_storage).
+  # checkov:skip=CKV2_AZURE_47: No blob containers exposed; `allow_nested_items_to_be_public` defaults to disabled and the account is identity-only.
+  # checkov:skip=CKV2_AZURE_1: Platform-managed keys are acceptable — cache/LiveStatus is not classified data and CMK adds Key Vault + rotation cost with no threat-model benefit here.
   name = local.cache_storage_name
 
   resource_group_name = data.azurerm_resource_group.rg.name
