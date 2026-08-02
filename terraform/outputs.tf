@@ -68,3 +68,19 @@ output "ban_files_storage" {
   }
 }
 
+// Shared cache storage account exposed for portal-repository (Repository API)
+// to configure both `ILiveStatusStore` (TableStorageLiveStatusStore) and the
+// MxCaching TableStorage backend (`MxCaching:TableStorage:Endpoint`). The
+// Repository API managed identity is granted Storage Table Data Contributor
+// on this account in cache_storage.tf. Consumers connect via managed
+// identity — no keys or connection strings are published.
+output "cache_storage" {
+  description = "Shared cache storage account used by the Repository API for ephemeral cache-aside entries (MxCaching TableStorage) and LiveStatus status/player records. Access via managed identity only."
+  value = {
+    id             = azurerm_storage_account.cache_storage.id
+    name           = azurerm_storage_account.cache_storage.name
+    table_endpoint = azurerm_storage_account.cache_storage.primary_table_endpoint
+  }
+}
+
+
