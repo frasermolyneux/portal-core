@@ -1,63 +1,22 @@
 # AGENTS.md — portal-core
 
-Terraform-only repository that provisions **shared portal infrastructure** on Azure (Application Insights, App Service Plans, managed-identity-backed SQL Server, portal dashboards, resource health alerts). Consumed by all `portal-*` workload repos.
+## Purpose and ownership
 
-This file is the brief for the **GitHub Copilot coding agent** (and any other agent that follows the [agents.md](https://agents.md) convention) when it runs in a cloud runner without the local VS Code multi-root workspace context.
+Terraform-only repository for the shared portal infrastructure layer. It owns shared Application Insights, App Service plans, SQL Server, Service Bus, cache and application-data storage, dashboards, and resource-health alerts used by downstream `portal-*` workloads.
 
-> If you are a human reading this in VS Code, prefer `.github/copilot-instructions.md` for project orientation. `AGENTS.md` is the agent execution brief.
+## Important paths
 
----
+- `terraform/` — the single Terraform root module
+- `terraform/providers.tf` — Terraform/provider constraints and AzureRM backend declaration
+- `terraform/remote_state.tf` — upstream state dependencies
+- `terraform/outputs.tf` — downstream contract surface
+- `terraform/backends/{dev,prd}.backend.hcl` — environment backend configuration
+- `terraform/tfvars/{dev,prd}.tfvars` — environment inputs
+- `terraform/dashboards/` — portal dashboard source
+- `docs/tf-resource-standards.md` — repository naming and tagging guidance
+- `.github/workflows/` — plan, deployment, teardown, and dashboard automation
 
-## Required reading (read these BEFORE doing any work)
-
-The `copilot-setup-steps.yml` workflow checks out `frasermolyneux/.github-copilot` at `./.github-copilot/` in the runner, so the paths below resolve.
-
-1. `.github/copilot-instructions.md` — repo-specific orientation, build commands, conventions
-2. `.github-copilot/.github/instructions/personal.working-preferences.instructions.md` — Fraser's always-on rules: git hands-off, default to assigned branch, run `code-review` agent before reporting done
-3. `.github-copilot/.github/copilot-instructions.md` — org-wide context catalog (use as index for the layered instruction files below)
-4. Stack-specific files — see **Stack guardrails** below
-5. `docs/tf-resource-standards.md` — repo's local naming/tagging cheat sheet
-
----
-
-## Org conventions via MCP (when available)
-
-If a `frasermolyneux-copilot` MCP server is configured in your client (`~/.copilot/mcp-config.json`, VS Code user `mcp.json`, or an equivalent stdio MCP wire-up), **prefer its catalog tools** over your own assumptions when answering questions about org standards, branching, workflows, Terraform, .NET projects, Azure patterns, or shared library / platform consumption contracts. The catalog source-of-truth lives in `frasermolyneux/.github-copilot` — see `mcp-server/README.md` there for the tool contract.
-
-This is **complementary** to the file-load model: if `./.github-copilot/` is checked out in the runner (per `copilot-setup-steps.yml`), continue to read those files directly. If both are available, prefer MCP for freshness. If no MCP server is configured in your client, treat this section as a no-op and fall back to the file paths above.
-
----
-
-## Stack guardrails
-
-### Tenant facts (always-on)
-- `.github-copilot/.github/instructions/tenant.subscriptions.instructions.md`
-- `.github-copilot/.github/instructions/tenant.regions.instructions.md`
-- `.github-copilot/.github/instructions/tenant.identity.instructions.md`
-- `.github-copilot/.github/instructions/tenant.network-topology.instructions.md`
-
-### Enforceable standards
-- `.github-copilot/.github/instructions/standards.oidc-and-secrets.instructions.md` — **no client secrets, ever**
-- `.github-copilot/.github/instructions/standards.azure-naming.instructions.md`
-- `.github-copilot/.github/instructions/standards.azure-tagging.instructions.md`
-- `.github-copilot/.github/instructions/standards.terraform-style.instructions.md`
-- `.github-copilot/.github/instructions/standards.branching-and-prs.instructions.md`
-
-### Patterns
-- `.github-copilot/.github/instructions/patterns.terraform-remote-state.instructions.md`
-- `.github-copilot/.github/instructions/terraform.instructions.md`
-
-### Platform consumption contracts
-- `.github-copilot/.github/instructions/platform.workloads.instructions.md` — workload RGs / backend configs
-- `.github-copilot/.github/instructions/platform.monitoring.instructions.md` — Log Analytics, action groups
-- `.github-copilot/.github/instructions/platform.instructions.md` — catalog
-
-### Shared
-- `.github-copilot/.github/instructions/shared.portal-core.instructions.md` — this repo's own contract for downstream `portal-*` consumers
-
----
-
-## Build, test, format
+## Useful commands
 
 ```pwsh
 terraform -chdir=terraform fmt -check -recursive
@@ -66,65 +25,22 @@ terraform -chdir=terraform validate
 terraform -chdir=terraform plan -var-file=tfvars/dev.tfvars
 ```
 
-Requires `AZURE_CLIENT_ID`, `AZURE_TENANT_ID`, `AZURE_SUBSCRIPTION_ID` in the runner (provided by OIDC federation via `platform-workloads`).
+Run `init`, `validate`, or `plan` only when the task needs backend/provider evaluation and the required Azure OIDC environment is available.
 
----
+## State and environment constraints
 
-## Do NOT
+- Terraform requires `>= 1.15.6`; provider constraints are defined in `terraform/providers.tf`.
+- The AzureRM backend uses OIDC/Azure AD authentication. Dev and production have separate backend and tfvars files.
+- Resource groups come from `platform-workloads` remote state. Monitoring resources come from `platform-monitoring`; SQL administration and managed identities come from `portal-environments`.
+- Terraform outputs are high-blast-radius contracts consumed by other repositories. Preserve output names and shapes unless a coordinated consumer migration is explicitly in scope.
+- Keep workload-specific applications and databases in their owning workload repositories; this repository owns shared infrastructure.
+- Preserve managed-identity access, existing remote-state coordinates, resource naming, tags, and environment boundaries.
+- `.terraform.lock.hcl`, local state, plans, and `.terraform/` directories are generated and ignored.
 
-- ❌ Do not `git commit`, `git push`, force-push, rebase, `reset --hard`, or create/delete branches. Work on the branch you were assigned to.
-- ❌ Do not introduce client secrets, connection strings, or hard-coded subscription IDs / GUIDs. OIDC + managed identity only.
-- ❌ Do not bypass `terraform fmt -check`, `terraform validate`, or the plan stage.
-- ❌ Do not change resource naming/tagging conventions — they are enforced.
-- ❌ Do not create new outputs without realising every `portal-*` repo consumes this stack via remote state — breaking output renames are a coordinated change.
-- ❌ Do not modify `.github/workflows/`, `.github/dependabot.yml`, or `version.json` unless that is the explicit task.
-- ❌ Do not introduce App Service / Function / SQL **workload** resources here — those belong in the consuming `portal-*` repo. This repo provides the *shared* plan, server, and observability primitives only.
+## Authoritative repository docs
 
-- ❌ Do not pull context from sibling workspace folders. Only what is inside this repo and `./.github-copilot/` is in scope.
-- ❌ Do not assume tools/SDKs are installed beyond what `.github/workflows/copilot-setup-steps.yml` provisions. If you need more, add the step and explain why.
-
----
-
-## Opening the PR
-
-You MUST use `.github/PULL_REQUEST_TEMPLATE.md` as your PR body — do **not** write a freeform body. The org template is inherited from `frasermolyneux/.github` and GitHub pre-populates it when you open the PR. Concretely:
-
-1. Fill `## Summary` (one line) and `Closes #<issue>`.
-2. Tick the relevant `## Type of change` box.
-3. Paste the **actual command output** from your Build, Tests, and Format check runs into `## Validation evidence`. Show the real summary line, not "tests passed".
-4. Fill `## Risk and rollout` — blast radius, auto-deploy?, manual steps post-merge, rollback plan.
-5. Tick **every** box in `## Agent attestation`.
-6. Delete `## Consumer impact` only if no published contract (Abstractions / Client NuGet / Service Bus DTO / Terraform output) changed.
-
-Complete the `## Agent attestation` section before requesting review; reviewers use it as a readiness checklist.
-
----
-
-## Pre-PR checks (run before you open the PR)
-
-- [ ] `terraform fmt -check -recursive` passes
-- [ ] `terraform validate` passes for the dev backend
-- [ ] `terraform plan -var-file=tfvars/dev.tfvars` succeeds and the diff is intentional
-- [ ] If outputs were added/renamed, downstream `portal-*` consumers have been audited
-- [ ] No new secrets / GUIDs / connection strings
-- [ ] PR body cites each acceptance criterion from the originating issue
-- [ ] Risk/rollout section filled in
-
-- [ ] `code-review` sub-agent run; High/Medium findings resolved or justified in the PR body
-
----
-
-## Escalation
-
-If you hit any of the conditions below, **open the PR as draft** and **apply the `needs-decision` label** instead of pushing forward to ready-for-review. Post a comment on the originating issue summarising what's blocking you and what decision is needed.
-
-Stop and escalate when:
-
-- A change would alter or remove a published Terraform `output` (downstream contract break).
-- The required tenant/standards/platform file is missing or contradicts the issue.
-- A `code-review` finding is **High** and you cannot resolve it without expanding scope.
-- The runner lacks the Terraform version pinned in `.terraform-version` / the workflow.
-
-
-
-
+- [README.md](README.md)
+- [Development workflows](docs/development-workflows.md)
+- [Terraform resource standards](docs/tf-resource-standards.md)
+- [Contributing](CONTRIBUTING.md)
+- [Security](SECURITY.md)

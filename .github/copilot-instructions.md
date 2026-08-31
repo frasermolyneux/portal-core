@@ -1,79 +1,14 @@
 # Copilot Instructions
 
-> Shared conventions: see [`.github-copilot/.github/instructions/terraform.instructions.md`](../.github-copilot/.github/instructions/terraform.instructions.md) for the standard Terraform layout, providers, remote-state pattern, validation commands, and CI/CD workflows.
->
-> <!-- Links use `../.github-copilot/` which resolves in the cloud-runner checkout (copilot-setup-steps.yml clones `.github-copilot` to the repo root). In local VS Code with the multi-root workspace, browse `../../.github-copilot/` instead. -->
->
-> **Cloud agents (GitHub Copilot coding agent etc.):** read [`AGENTS.md`](../AGENTS.md) at the repo root first — it is the canonical brief that survives outside the local VS Code multi-root workspace.
-
-## Org conventions via MCP (when available)
-
-If a `frasermolyneux-copilot` MCP server is configured in your client (`~/.copilot/mcp-config.json`, VS Code user `mcp.json`, or an equivalent stdio MCP wire-up), **prefer its catalog tools** over your own assumptions when answering questions about org standards, branching, workflows, Terraform, .NET projects, Azure patterns, or shared library / platform consumption contracts. The catalog source-of-truth lives in `frasermolyneux/.github-copilot` — see `mcp-server/README.md` there for the tool contract.
-
-This is **complementary** to the file-load model: if `./.github-copilot/` is checked out in the runner (per `copilot-setup-steps.yml`), continue to read those files directly. If both are available, prefer MCP for freshness. If no MCP server is configured in your client, treat this section as a no-op and fall back to the file paths above.
-
-## Project Overview
-
-This is a Terraform-only repository that provisions shared portal infrastructure on Azure. It manages Application Insights, app service plans, a managed-identity-backed SQL server, portal dashboards, and resource health alerting. All infrastructure code lives under the `terraform/` directory.
-
-## Tech Stack
-
-- **Terraform** >= 1.14.3 with `azurerm` ~> 4.59 and `azuread` ~> 3.7
-- **Backend**: azurerm with OIDC authentication
-- **CI/CD**: GitHub Actions workflows in `.github/workflows/`
-
-## Repository Structure
-
-- `terraform/` — All Terraform configuration (providers, resources, variables, outputs)
-- `terraform/backends/` — Backend configuration files per environment
-- `terraform/tfvars/` — Variable files per environment
-- `terraform/dashboards/` — Dashboard JSON templates with token replacement
-- `docs/` — Development workflows and resource naming standards
-- `.github/workflows/` — CI/CD pipelines for plan, apply, and teardown
-
-## Remote State Dependencies
-
-This stack depends on three upstream remote states:
-- **platform-workloads**: Workload resource groups and backend configs
-- **platform-monitoring**: Log Analytics workspace and monitor action groups
-- **portal-environments**: API Management metadata, SQL admin group, and managed identities
-
-## Resource Naming and Tagging
-
-Follow `docs/tf-resource-standards.md`. Pattern: `<resource>-<project>-<environment>-<location>-<instance>`. Globally unique resources append `random_id.environment_id.hex`. Always set `tags = var.tags` on every resource.
-
-## Key Terraform Files
-
-- `providers.tf` — Provider and backend configuration
-- `locals.tf` — Local values and resource naming
-- `remote_state.tf` — Upstream remote state data sources
-- `app_service_plan.tf` — App service plans from `var.app_service_plans` map
-- `app_insights.tf` — Application Insights wired to shared Log Analytics workspace
-- `sql_server.tf` — MSSQL server with user-assigned identity and Azure AD admin
-- `portal_dashboard.tf` — Dashboard with token replacement; dev-only staging copy
-- `resource_health_alerts.tf` — Activity log alerts using environment-specific action groups
-
-## CI/CD Workflows
-
-- **build-and-test**: Dev plan on feature/bugfix/hotfix branch pushes
-- **pr-verify**: Dev plan on PRs; Prd plan opt-in via `run-prd-plan` label; dependabot PRs skipped
-- **deploy-dev**: Manual dispatch for dev plan+apply
-- **deploy-prd**: Runs on main push and weekly schedule; Dev apply then Prd apply with concurrency guards
-- **destroy-development / destroy-environment**: Environment teardown workflows
-
-## Local Validation
-
-```bash
-terraform -chdir=terraform init -backend-config=backends/dev.backend.hcl
-terraform -chdir=terraform plan -var-file=tfvars/dev.tfvars
-```
-
-Requires `AZURE_CLIENT_ID`, `AZURE_TENANT_ID`, `AZURE_SUBSCRIPTION_ID` environment variables.
-
-## Conventions
-
-- Prefer managed identities over secrets
-- Keep resource names ASCII-only
-- Always apply `tags = var.tags` to resources
-- Resource group deletion protection is disabled to allow App Insights artifacts cleanup
-- Dashboard staging copy uses `ignore_changes` on `dashboard_properties` for manual edits
+- This is a Terraform-only repository; all infrastructure is in the `terraform/` root module.
+- It owns shared portal infrastructure: observability, App Service plans, SQL Server, Service Bus, shared storage, dashboards, and resource-health alerts.
+- Terraform requires `>= 1.15.6`; use the provider constraints in `terraform/providers.tf`.
+- Environment inputs are `terraform/tfvars/{dev,prd}.tfvars`; backend settings are `terraform/backends/{dev,prd}.backend.hcl`.
+- The AzureRM backend and remote states use OIDC/Azure AD authentication.
+- Upstream state dependencies are `platform-workloads`, `platform-monitoring`, and `portal-environments`.
+- Treat `terraform/outputs.tf` as a cross-repository contract: preserve output names and shapes unless consumers are being migrated together.
+- Preserve managed-identity access, remote-state coordinates, environment separation, naming, and tags.
+- Keep workload-specific resources out of this shared-infrastructure repository.
+- Put names and derived values in `locals.tf`; follow `docs/tf-resource-standards.md`.
+- Format checks use `terraform -chdir=terraform fmt -check -recursive`.
+- Do not edit generated state, plans, `.terraform/`, or `.terraform.lock.hcl`.
