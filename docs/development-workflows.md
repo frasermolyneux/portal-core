@@ -29,7 +29,7 @@ Terraform-only repository for portal-core shared services. Branch strategy, trig
 
 ```bash
 # Common local validation
-terraform -chdir=terraform init -backend-config=backends/dev.backend.hcl
+terraform -chdir=terraform init -lockfile=readonly -backend-config=backends/dev.backend.hcl
 terraform -chdir=terraform plan -var-file=tfvars/dev.tfvars
 ```
 

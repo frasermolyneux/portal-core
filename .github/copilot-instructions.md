@@ -11,4 +11,4 @@
 - Keep workload-specific resources out of this shared-infrastructure repository.
 - Put names and derived values in `locals.tf`; follow `docs/tf-resource-standards.md`.
 - Format checks use `terraform -chdir=terraform fmt -check -recursive`.
-- Do not edit generated state, plans, `.terraform/`, or `.terraform.lock.hcl`.
+- Commit each root's `.terraform-version` and `.terraform.lock.hcl`. Select the exact root CLI pin before invoking Terraform; normal initialization uses `-lockfile=readonly`. Regenerate provider selections only in a reviewed dependency-update PR; never commit state, plans, or `.terraform/`.

@@ -20,7 +20,7 @@ Terraform-only repository for the shared portal infrastructure layer. It owns sh
 
 ```pwsh
 terraform -chdir=terraform fmt -check -recursive
-terraform -chdir=terraform init -backend-config=backends/dev.backend.hcl
+terraform -chdir=terraform init -lockfile=readonly -backend-config=backends/dev.backend.hcl
 terraform -chdir=terraform validate
 terraform -chdir=terraform plan -var-file=tfvars/dev.tfvars
 ```
@@ -35,7 +35,7 @@ Run `init`, `validate`, or `plan` only when the task needs backend/provider eval
 - Terraform outputs are high-blast-radius contracts consumed by other repositories. Preserve output names and shapes unless a coordinated consumer migration is explicitly in scope.
 - Keep workload-specific applications and databases in their owning workload repositories; this repository owns shared infrastructure.
 - Preserve managed-identity access, existing remote-state coordinates, resource naming, tags, and environment boundaries.
-- `.terraform.lock.hcl`, local state, plans, and `.terraform/` directories are generated and ignored.
+- Commit each root's `.terraform-version` and `.terraform.lock.hcl`. Select the exact root CLI pin before invoking Terraform; normal initialization uses `-lockfile=readonly`. Regenerate provider selections only in a reviewed dependency-update PR; never commit state, plans, or `.terraform/`.
 
 ## Authoritative repository docs
 
