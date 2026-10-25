@@ -79,7 +79,7 @@ jobs:
         git config --global user.name "GitHub Actions"
         git checkout -b ${{github.run_id}}-${{github.run_number}}
 
-        git add .
+        git add -- terraform/dashboards/dashboard.json
         git commit -m "Updating template from staging dashboard"
         git push origin ${{github.run_id}}-${{github.run_number}}
         
