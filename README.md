@@ -13,7 +13,6 @@
 
 * [Development Workflows](/docs/development-workflows.md) - Branch strategy, CI/CD triggers, and development flows
 * [Terraform Resource Standards](/docs/tf-resource-standards.md) - Naming and tagging conventions for Azure resources
-* [Local MCP Wire-Up](/docs/local-mcp-wire-up.md) - Configuring the `frasermolyneux-copilot` MCP server for local VS Code
 
 ## Overview
 
