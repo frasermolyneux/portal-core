@@ -34,17 +34,18 @@ locals {
   dashboard_name            = "portal-core-${var.environment}"
 
   servicebus_queues = {
-    "player-connected"    = { max_delivery_count = 5, lock_duration = "PT5M", dead_lettering_on_message_expiration = true }
-    "player-disconnected" = { max_delivery_count = 5, lock_duration = "PT5M", dead_lettering_on_message_expiration = true }
-    "chat-message"        = { max_delivery_count = 5, lock_duration = "PT5M", dead_lettering_on_message_expiration = true }
-    "server-connected"    = { max_delivery_count = 5, lock_duration = "PT5M", dead_lettering_on_message_expiration = true }
-    "map-change"          = { max_delivery_count = 5, lock_duration = "PT5M", dead_lettering_on_message_expiration = true }
-    "server-status"       = { max_delivery_count = 5, lock_duration = "PT5M", dead_lettering_on_message_expiration = true }
-    "ban-file-changed"    = { max_delivery_count = 5, lock_duration = "PT5M", dead_lettering_on_message_expiration = true }
-    "player-ip-resolved"  = { max_delivery_count = 5, lock_duration = "PT5M", dead_lettering_on_message_expiration = true }
-    "ban-applied"         = { max_delivery_count = 5, lock_duration = "PT5M", dead_lettering_on_message_expiration = true }
-    "ban-lift-applied"    = { max_delivery_count = 5, lock_duration = "PT5M", dead_lettering_on_message_expiration = true }
-    "ban-sync-failed"     = { max_delivery_count = 5, lock_duration = "PT5M", dead_lettering_on_message_expiration = true }
+    "player-connected"     = { max_delivery_count = 5, lock_duration = "PT5M", dead_lettering_on_message_expiration = true }
+    "player-disconnected"  = { max_delivery_count = 5, lock_duration = "PT5M", dead_lettering_on_message_expiration = true }
+    "playtime-observation" = { max_delivery_count = 5, lock_duration = "PT5M", dead_lettering_on_message_expiration = true }
+    "chat-message"         = { max_delivery_count = 5, lock_duration = "PT5M", dead_lettering_on_message_expiration = true }
+    "server-connected"     = { max_delivery_count = 5, lock_duration = "PT5M", dead_lettering_on_message_expiration = true }
+    "map-change"           = { max_delivery_count = 5, lock_duration = "PT5M", dead_lettering_on_message_expiration = true }
+    "server-status"        = { max_delivery_count = 5, lock_duration = "PT5M", dead_lettering_on_message_expiration = true }
+    "ban-file-changed"     = { max_delivery_count = 5, lock_duration = "PT5M", dead_lettering_on_message_expiration = true }
+    "player-ip-resolved"   = { max_delivery_count = 5, lock_duration = "PT5M", dead_lettering_on_message_expiration = true }
+    "ban-applied"          = { max_delivery_count = 5, lock_duration = "PT5M", dead_lettering_on_message_expiration = true }
+    "ban-lift-applied"     = { max_delivery_count = 5, lock_duration = "PT5M", dead_lettering_on_message_expiration = true }
+    "ban-sync-failed"      = { max_delivery_count = 5, lock_duration = "PT5M", dead_lettering_on_message_expiration = true }
   }
 
   app_insights_sampling_percentage = {
