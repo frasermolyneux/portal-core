@@ -18,6 +18,8 @@
 
 This repository contains the Terraform infrastructure-as-code for the portal-core shared services layer. It provisions Application Insights, app service plans, a managed-identity-backed SQL server, portal dashboards, and resource health alerting across development and production environments. State is hydrated from upstream remote states including platform-workloads, platform-monitoring, and portal-environments. GitHub Actions workflows handle CI validation, environment deployments, and promotion from development to production via reusable pipelines.
 
+The shared Service Bus namespace includes `rule-action-continuations` for durable rules action processing. It uses the standard queue policy (five deliveries, a five-minute lock, and dead-lettering on expiration), the existing `servicebus_queues` output, and namespace-level managed-identity sender/receiver access. Consumers use the existing `ServiceBusConnection__fullyQualifiedNamespace` setting and must handle at-least-once delivery idempotently.
+
 ## Contributing
 
 Please read the [contributing](CONTRIBUTING.md) guidance; this is a learning and development project.
